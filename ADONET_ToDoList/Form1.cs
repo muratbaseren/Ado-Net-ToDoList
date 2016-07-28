@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdoNetHelper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,67 +19,54 @@ namespace ADONET_ToDoList
             InitializeComponent();
         }
 
-        private string BaglantiCumlesi = "Server=[ServerName]; Database=[DbName]; User Id=[username]; Password=[password]";
+        private string BaglantiCumlesi = "Server=TRAINER; Database=TodoListDB_AdoNet; User Id=sa; Password=wissen";
 
         private void GetData()
         {
             lstGorevler.Items.Clear();
 
-            SqlConnection con = new SqlConnection(BaglantiCumlesi);
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = con;
-            cmd.CommandText = "SELECT * FROM Gorevler";
+            Database db = new Database(BaglantiCumlesi);
+            DataTable sonuc_tablo = db.GetTable("SELECT * FROM Gorevler", null);
 
-            con.Open();
-
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
+            foreach (DataRow row in sonuc_tablo.Rows)
             {
                 Gorev gorev = new Gorev();
 
-                gorev.Id = (int)reader["Id"];
-                gorev.Konu = reader["Konu"].ToString();
-                gorev.Durum = (bool)reader["Durum"];
-                gorev.OlusturmaTarihi = (DateTime)reader["OlusturmaTarihi"];
+                gorev.Id = (int)row["Id"];
+                gorev.Konu = row["Konu"].ToString();
+                gorev.Durum = (bool)row["Durum"];
+                gorev.OlusturmaTarihi = (DateTime)row["OlusturmaTarihi"];
 
-                if (reader["GuncellemeTarihi"] == DBNull.Value)
+                if (row["GuncellemeTarihi"] == DBNull.Value)
                 {
                     gorev.GuncellemeTarihi = null;
                 }
                 else
                 {
-                    gorev.GuncellemeTarihi = (DateTime?)reader["GuncellemeTarihi"];
+                    gorev.GuncellemeTarihi = (DateTime?)row["GuncellemeTarihi"];
                 }
 
 
                 lstGorevler.Items.Add(gorev);
             }
 
-            con.Close();
         }
 
         private void btnEkle_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection(BaglantiCumlesi);
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = con;
-            cmd.CommandText = "INSERT INTO Gorevler (Konu, Durum, OlusturmaTarihi, GuncellemeTarihi) VALUES (@Konu, @Durum, @OlusturmaTarihi, @GuncellemeTarihi)";
+            Database db = new Database(BaglantiCumlesi);
 
-            cmd.Parameters.AddWithValue("@Konu", txtGorev.Text);
-            cmd.Parameters.AddWithValue("@Durum", rdbYapildi.Checked);
-            cmd.Parameters.AddWithValue("@OlusturmaTarihi", DateTime.Now);
-            cmd.Parameters.AddWithValue("@GuncellemeTarihi", DBNull.Value);
+            string q = "INSERT INTO Gorevler (Konu, Durum, OlusturmaTarihi, GuncellemeTarihi) VALUES (@Konu, @Durum, @OlusturmaTarihi, @GuncellemeTarihi)";
 
-            con.Open();
+            List<SqlParameter> par = new List<SqlParameter>();
 
-            cmd.ExecuteNonQuery();
+            par.Add(new SqlParameter("@Konu", txtGorev.Text));
+            par.Add(new SqlParameter("@Durum", rdbYapildi.Checked));
+            par.Add(new SqlParameter("@OlusturmaTarihi", DateTime.Now));
+            par.Add(new SqlParameter("@GuncellemeTarihi", DBNull.Value));
 
-            con.Close();
-
+            db.RunQuery(q, par);
             GetData();
-
-
         }
 
         private void ToDoList_Load(object sender, EventArgs e)
@@ -88,6 +76,12 @@ namespace ADONET_ToDoList
 
         private void btnGuncelle_Click(object sender, EventArgs e)
         {
+            if (lstGorevler.SelectedIndex < 0)
+            {
+                MessageBox.Show("Lütfen bir görev seçiniz.");
+                return;
+            }
+
             SqlConnection con = new SqlConnection(BaglantiCumlesi);
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
@@ -108,7 +102,6 @@ namespace ADONET_ToDoList
             con.Close();
 
             GetData();
-
         }
 
         private void btnSil_Click(object sender, EventArgs e)
@@ -136,8 +129,6 @@ namespace ADONET_ToDoList
             {
                 MessageBox.Show("Lütfen bir görev seçiniz.");
             }
-
-
         }
 
         private void lstGorevler_SelectedIndexChanged(object sender, EventArgs e)
