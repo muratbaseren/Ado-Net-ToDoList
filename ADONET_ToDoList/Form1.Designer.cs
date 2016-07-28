@@ -50,7 +50,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(210, 63);
+            this.label1.Location = new System.Drawing.Point(233, 44);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(60, 13);
             this.label1.TabIndex = 1;
@@ -58,15 +58,15 @@
             // 
             // txtGorev
             // 
-            this.txtGorev.Location = new System.Drawing.Point(277, 60);
+            this.txtGorev.Location = new System.Drawing.Point(236, 60);
             this.txtGorev.Name = "txtGorev";
-            this.txtGorev.Size = new System.Drawing.Size(155, 20);
+            this.txtGorev.Size = new System.Drawing.Size(237, 20);
             this.txtGorev.TabIndex = 2;
             // 
             // rdbYapildi
             // 
             this.rdbYapildi.AutoSize = true;
-            this.rdbYapildi.Location = new System.Drawing.Point(213, 117);
+            this.rdbYapildi.Location = new System.Drawing.Point(296, 102);
             this.rdbYapildi.Name = "rdbYapildi";
             this.rdbYapildi.Size = new System.Drawing.Size(56, 17);
             this.rdbYapildi.TabIndex = 3;
@@ -77,7 +77,7 @@
             // rdbYapilacak
             // 
             this.rdbYapilacak.AutoSize = true;
-            this.rdbYapilacak.Location = new System.Drawing.Point(327, 117);
+            this.rdbYapilacak.Location = new System.Drawing.Point(360, 102);
             this.rdbYapilacak.Name = "rdbYapilacak";
             this.rdbYapilacak.Size = new System.Drawing.Size(72, 17);
             this.rdbYapilacak.TabIndex = 4;
@@ -87,7 +87,7 @@
             // 
             // btnSil
             // 
-            this.btnSil.Location = new System.Drawing.Point(194, 173);
+            this.btnSil.Location = new System.Drawing.Point(236, 134);
             this.btnSil.Name = "btnSil";
             this.btnSil.Size = new System.Drawing.Size(75, 23);
             this.btnSil.TabIndex = 5;
@@ -97,7 +97,7 @@
             // 
             // btnGuncelle
             // 
-            this.btnGuncelle.Location = new System.Drawing.Point(277, 173);
+            this.btnGuncelle.Location = new System.Drawing.Point(317, 134);
             this.btnGuncelle.Name = "btnGuncelle";
             this.btnGuncelle.Size = new System.Drawing.Size(75, 23);
             this.btnGuncelle.TabIndex = 6;
@@ -107,7 +107,7 @@
             // 
             // btnEkle
             // 
-            this.btnEkle.Location = new System.Drawing.Point(369, 173);
+            this.btnEkle.Location = new System.Drawing.Point(398, 134);
             this.btnEkle.Name = "btnEkle";
             this.btnEkle.Size = new System.Drawing.Size(75, 23);
             this.btnEkle.TabIndex = 7;
