@@ -80,6 +80,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="dlls\AdoNetHelper.dll" />
     <Content Include="todo-list-script.sql" />
   </ItemGroup>
   <ItemGroup>
