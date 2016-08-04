@@ -44,6 +44,32 @@ namespace AdoNetHelper
         }
 
 
+        public void RunProc(string procName, List<SqlParameter> parameters)
+        {
+            SqlConnection con = new SqlConnection(ConnectionString);
+            SqlCommand cmd = new SqlCommand(procName, con);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            if (parameters != null && parameters.Count > 0)
+            {
+                cmd.Parameters.AddRange(parameters.ToArray());
+            }
+
+            int result = 0;
+
+            con.Open();
+            result = cmd.ExecuteNonQuery();
+            con.Close();
+
+            return result;
+        }
+
+        public void RunProc(string procName, params SqlParameter[] parameters)
+        {
+            return RunQuery(procName, new List<SqlParameter>(parameters));
+        }
+
+
         public DataTable GetTable(string query, List<SqlParameter> parameters)
         {
             SqlConnection con = new SqlConnection(ConnectionString);
