@@ -19,7 +19,7 @@ namespace AdoNetHelper
         }
 
 
-        public void RunQuery(string query, List<SqlParameter> parameters)
+        public int RunQuery(string query, List<SqlParameter> parameters)
         {
             SqlConnection con = new SqlConnection(ConnectionString);
             SqlCommand cmd = new SqlCommand(query, con);
@@ -27,16 +27,20 @@ namespace AdoNetHelper
             if (parameters != null && parameters.Count > 0)
             {
                 cmd.Parameters.AddRange(parameters.ToArray());
-
-                //foreach (SqlParameter param in parameters)
-                //{
-                //    cmd.Parameters.Add(param);
-                //}
             }
 
+            int result = 0;
+
             con.Open();
-            cmd.ExecuteNonQuery();
+            result = cmd.ExecuteNonQuery();
             con.Close();
+
+            return result;
+        }
+
+        public int RunQuery(string query, params SqlParameter[] parameters)
+        {
+            return RunQuery(query, new List<SqlParameter>(parameters));
         }
 
 
@@ -58,6 +62,11 @@ namespace AdoNetHelper
             da.Fill(dt);
 
             return dt;
+        }
+
+        public DataTable GetTable(string query, params SqlParameter[] parameters)
+        {
+            return GetTable(query, new List<SqlParameter>(parameters));
         }
 
     }
