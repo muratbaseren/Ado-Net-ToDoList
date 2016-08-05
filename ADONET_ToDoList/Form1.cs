@@ -58,20 +58,13 @@ namespace ADONET_ToDoList
 
             string q = "INSERT INTO Gorevler (Konu, Durum, OlusturmaTarihi, GuncellemeTarihi) VALUES (@Konu, @Durum, @OlusturmaTarihi, @GuncellemeTarihi)";
 
-            List<SqlParameter> par = new List<SqlParameter>();
-
-            par.Add(new SqlParameter("@Konu", txtGorev.Text));
-            par.Add(new SqlParameter("@Durum", rdbYapildi.Checked));
-            par.Add(new SqlParameter("@OlusturmaTarihi", DateTime.Now));
-            par.Add(new SqlParameter("@GuncellemeTarihi", DBNull.Value));
-
-            db.RunQuery(q, par);
+            db.RunQuery(q, new SqlParameter("@Konu", txtGorev.Text), new SqlParameter("@Durum", rdbYapildi.Checked), new SqlParameter("@OlusturmaTarihi", DateTime.Now), new SqlParameter("@GuncellemeTarihi", DBNull.Value));
             GetData();
         }
 
         private void ToDoList_Load(object sender, EventArgs e)
         {
-            GetData();
+            //GetData();
         }
 
         private void btnGuncelle_Click(object sender, EventArgs e)
@@ -143,6 +136,14 @@ namespace ADONET_ToDoList
             txtGorev.Text = seciligorev.Konu;
             rdbYapildi.Checked = seciligorev.Durum;
             rdbYapilacak.Checked = !seciligorev.Durum;
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Database db = new Database("Server=TRAINER; Database=MusicBoxDB; User Id=sa; Password=wissen");
+
+            DataTable dt = db.RunProc("SelectAllRowsTurler", null);
 
         }
     }

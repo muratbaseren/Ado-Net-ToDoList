@@ -19,12 +19,12 @@ namespace AdoNetHelper
         }
 
 
-        public int RunQuery(string query, List<SqlParameter> parameters)
+        public int RunQuery(string query, params SqlParameter[] parameters)
         {
             SqlConnection con = new SqlConnection(ConnectionString);
             SqlCommand cmd = new SqlCommand(query, con);
 
-            if (parameters != null && parameters.Count > 0)
+            if (parameters != null && parameters.Length > 0)
             {
                 cmd.Parameters.AddRange(parameters.ToArray());
             }
@@ -38,44 +38,30 @@ namespace AdoNetHelper
             return result;
         }
 
-        public int RunQuery(string query, params SqlParameter[] parameters)
-        {
-            return RunQuery(query, new List<SqlParameter>(parameters));
-        }
-
-
-        public void RunProc(string procName, List<SqlParameter> parameters)
+        public DataTable RunProc(string procName, params SqlParameter[] parameters)
         {
             SqlConnection con = new SqlConnection(ConnectionString);
             SqlCommand cmd = new SqlCommand(procName, con);
             cmd.CommandType = CommandType.StoredProcedure;
 
-            if (parameters != null && parameters.Count > 0)
+            if (parameters != null && parameters.Length > 0)
             {
                 cmd.Parameters.AddRange(parameters.ToArray());
             }
 
-            int result = 0;
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            adapter.Fill(dt);
 
-            con.Open();
-            result = cmd.ExecuteNonQuery();
-            con.Close();
-
-            return result;
+            return dt;
         }
 
-        public void RunProc(string procName, params SqlParameter[] parameters)
-        {
-            return RunQuery(procName, new List<SqlParameter>(parameters));
-        }
-
-
-        public DataTable GetTable(string query, List<SqlParameter> parameters)
+        public DataTable GetTable(string query, params SqlParameter[] parameters)
         {
             SqlConnection con = new SqlConnection(ConnectionString);
             SqlCommand cmd = new SqlCommand(query, con);
 
-            if (parameters != null && parameters.Count > 0)
+            if (parameters != null && parameters.Length > 0)
             {
                 cmd.Parameters.AddRange(parameters.ToArray());
             }
@@ -88,11 +74,6 @@ namespace AdoNetHelper
             da.Fill(dt);
 
             return dt;
-        }
-
-        public DataTable GetTable(string query, params SqlParameter[] parameters)
-        {
-            return GetTable(query, new List<SqlParameter>(parameters));
         }
 
     }
