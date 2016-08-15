@@ -80,14 +80,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="dlls\AdoNetHelper.dll" />
     <Content Include="todo-list-script.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AdoNetHelper\AdoNetHelper.csproj">
-      <Project>{c7b28cc1-970e-48f7-8a0b-28510c4ead7a}</Project>
-      <Name>AdoNetHelper</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
